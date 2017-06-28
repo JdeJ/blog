@@ -205,4 +205,4 @@ Otra cosa que hay que tener en cuenta es que si tenemos una función dentro de u
 
 Hasta aquí mi primera visión de JS, aún me falta mucho que aprender y lo iré plasmando en más artículos.
 
-Un saludo...
+Un saludo.
