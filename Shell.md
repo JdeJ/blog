@@ -80,8 +80,8 @@ En este apartado vamos a ver los 4 comandos principales para manejar los archivo
 
 Wildcard | Significado
 -- | --
-* | Sustituye cualquier caracter.
-? | Sustituye un solo caracter.
+/* | Sustituye cualquier caracter.
+/? | Sustituye un solo caracter.
 [characters]  | Los que coinciden con un grupo de caracteres.
 [!characters]  | Los que no coinciden con un grupo de caracteres.
 
@@ -113,210 +113,125 @@ rm -r dir1 dir2  | Borra el contenido de los directorios dir1 y dir2.
 
     mkdir nombre_del_directorio
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
-
 ***
 
-### Sintaxis y peculiaridades
-La sintaxis es la común a casi todos los lenguajes:
+### Trabajando con comandos
+
+Antes de seguir con más comandos, conviene que sepamos los tipos que hay y como diferenciarlos para poder ejecutarlos como es debido. Hay 4 tipos de comandos:
+
+1 Ejecutables: Son los programas compilados.
+
+2 Bash: Comandos internos de la Shell.
+
+3 Funciones Shell: Son pequeños scripts propios del entorno.
+
+4 Alias: Comandos personalizados creados a partir de otros comandos.
+
+**TYPE**: Es una herramienta de la Shell que nos dice el tipo de comando que queremos ejecutar:
+
+    type comando
+
+**WHICH**: A veces necesitamos saber exactamente que comando estamos ejecutando, al ejecutarlo nos muestra su ruta.
+
+    which comando
+
+**HELP**: Es una utilidad para las funciones de la Shell, nos muestra por pantalla la descripcion y las opciones del comando.
+
+    help comando
+
+**--HELP**: Al igual que ocurre con las funciones de la Shell, algunos ejecutables permiten el uso de este comando para mostrar una pequeña ayuda sobre el comando y sus opciones.
+
+    comando --help
+    
+**MAN**: La mayoria de los ejecutables contienen una especie de manual que muestra por pantalla toda la informacin que los desarroladores han redactado sobre el programa.
+
+    man programa
+    
+***
+
+### Modificando el tipo de entrada y salida
+
+Hasta ahora hemos ido ejecutando comandos introduciendolos por teclado y esperando ver el resultado mostrado en la pantalla. La shell nos permite modificar esta entrada y salida estandar para controlar el flujo de los datos.
+
+**Standard Output**: La salida estandar cuando ejecutamos un comando es la pantalla, pero a veces nos puede interesar que el resultado de un comando sirva como entrada de datos para otro, esto se hace con el caracter ">".
 
 Código | Resultado
 -- | --
-// Tu comentario | Comentario en una sola línea
-/* Tu comentario multilínea*/ | Comentario multilínea
-var x;  | Declaración de una variable
-x = 6; | Asignación de un valor a una variable
-var obj = {}; | Declaración de un objeto vacío
-; | Final de sentencia, no es obligatorio en JS
+ls > lista_archivos.txt | Ejecuta el comando ls y guarda el resultado en un archivo de texto en lugar de mostrarlo en pantalla.
+ls >> lista_archivos.txt | Añade el resultado del comando al final de lista_archivos.txt, si no existe lo crea.
 
+**Standard Input**: Al igual que en el caso anterior, podemos cambiar la forma de entrada de datos estandar (el teclado) por la que nos interese.
 
-De todo esto las dos cosas que más me han llamado la atención son:
--	La declaración de las variables. hasta ahora estaba acostumbrado a pensar que uso iba a hacer de la variable para declararla del tipo correcto y no tener problemas en mi código, en JS todas las variables se declaran igual, incluso los objetos se definen de manera similar. Pero hay que tener cuidado ya que por ejemplo para JS **1 = 1.0**.
--	Si asignas un valor a una propiedad de un objeto que no esté declarada, ésta se crea automáticamente con el valor asignado. Si se accede a una propiedad que no está declarada (lectura), JS nos devuelve ***undefined***.
-
-***
-
-### Valores
-
-En JS, las variables tienen que nombrarse siguiendo ésta nomenclatura: empezando por **[A-Z, a-z, $, _]** seguido de **[A-Z, a-z, $, _, 0-9]** . En ningún caso puede empezar por un número ni pertenecer a la lista de [palabras reservadas](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Palabras_Reservadas "Palabras Reservadas").
-
-JS separa los posibles valores manejados en el código en dos grupos:
-
-1 **Primitivos** : booleanos, números, strings, null y undefined.
-
-2 **Objetos** : cualquier objeto que podamos definir, o que pertenezca al API de JS.
-
-Para poder saber de que tipo es la variable que estamos tratando en cada momento, podemos hacer uso del operador ***typeof*** para primitivos e ***instanceof*** para objetos.
-
-***
-
-### Funciones
-
-El tema de las funciones es un poco peculiar, por una parte al definir una función que va a recibir **X** parámetros, no necesitamos decir que tipo de dato es cada parámetro, sólo debemos poner el nombre de los parámetros. Y tampoco debemos hacer nada especial si la función va a devolver algo:
-
-    function f(p1, p2) {
-      console.log(p1, p2); //Ésto nos mostrará en pantalla el valor de p1 y p2
-      return arguments; //Devuelve la variable arguments
-    };
-
-Pero lo que es más curioso es que hasta ahora estaba acostumbrado a que la consola me lanzase un error al llamar a una función pasándole menos o más parámetros de los que tiene definidos.
-
-Pues bien, en JS existe una variable llamada ***arguments*** que almacena los valores que pasamos como parámetros a una función como si fuese un **Array**. Por esto JS siempre nos va a dejar llamar a una función sin enviarle necesariamente todos o ningún parámetro, funciona de la siguiente forma:
-
-**Caso 1**: Llamar a una función definida sin parámetros, pasándole varios parámetros.
-
-    function f() {return arguments};
-    var argum = f('a1', 'a2', 'a3');
-    args.length; -> 3
-    args[0]; -> a1
-
-En éste caso, al llamar a la funcion ***f()***, ésta nos devuelve la variable ***arguments*** y se almacena en la variable ***argum*** y podemos utilizarla como si fuese un **Array**.
-
-**Caso 2**: Llamar a una función pasándole **más** parámetros de los que se espera.
-
-    function f(p1, p2) {
-      console.log(p1, p2);
-      return arguments;
-    };
-    var argum = f('a1', 'a2', 'a3');
-
-Aquí vamos a obtener varias cosas, por un lado la función ***f(p1, p2)*** nos mostrará en pantalla el valor de p1 y p2 ('a1', 'a2'), y por otro está devolviendo ***arguments*** y almacenandolo en ***argum***, por lo que tenemos acceso a todos los parámetros descritos en la llamada original:
-
-    args.length; -> 3
-    args[2]; -> a3
-
-**Caso 3**: Llamar a una función pasándole **menos** parámetros de los que se espera.
-
-    function f(p1, p2) {
-      console.log(p1, p2);
-      return arguments;
-    };
-    var argum = f('a1');
-
-En ésta ocasión, por un lado la función ***f(p1, p2)*** nos mostrará en pantalla el valor de p1 y p2 ('a1', *undefined*), de ésta forma se cumple lo que deciamos al principio de éste apartado: JS no da ningún error en caso de diferente número de parámetros, simplemente declara los parámetros restantes y al no tener valor los define como *undefined*.
-
-Aunque lo más llamativo de éste caso es que la función sigue devolviendo ***arguments*** pero sólo con los parámetros de la llamada:
-
-    args.length; -> 1
-    toArray(argum); -> ['a1']
-
-**Caso 4**: Llamar a la una función que espera parámetros, pero sin pasarle ninguno.
-
-    function f(p1, p2) {
-      console.log(p1, p2);
-      return arguments;
-    };
-    var argum = f();
-
-Siguiendo el razonamiento la función nos mostrará en pantalla el valor de p1 y p2 (*undefined*, *undefined*), ya que no le hemos pasado ningún valor.
-
-En el caso de ***arguments*** se comportará de la siguiente manera, definiendo un **Array** vacío:
-
-    args.length; -> 0
-    toArray(argum); -> []
-
-***
-
-### Ámbito de las variables
-
-Otra cosa que me llama la atención de JS es referente a la vida de las variables, las variables en JS tienen vida a lo largo de la función en la que se encuentren, no del bloque en el que estén definidas.
-
-    function f(){
-      var x = 3;
-      if (x<12){
-        var y = x+1;
-      }
-      console.log(y);
-    }
-
-En el trozo de código anterior, la variable **y** almacena el valor **4** al entrar en el **if()**, hasta ahora en otros lenguajes si intentaba acceder a **y** fuera del bloque de c(ódigo obtenia un error. En JS puedo seguir utilizando la variable **y** mientras esté dentro de la funcion **f()**.
-
-Todo ésto ocurre porque JS, hace una cosa que se llama ***hoisted***, que consiste en "mover" todas las declaraciones de variables al inicio de las respectivas funciones. Pero hay que tener cuidado porque mantiene en el lugar original las inicializaciones de las mismas.
-
-Por último, en el tema de la vida de una variable, hay un caso especial que se llama ***closure***. Ocurre cuando devolvemos como retorno de una función otra función. De ésta manera se mantiene viva la variable que estaba definida dentro de ella:
-
-    function incrementar(x){
-      return function (){
-        x++;
-        return x;
-      }
-    }
-
-    var inc = incrementar(1);
-    inc(); -> 2
-    inc(); -> 3
-    inc(); -> 4
-
-Al mantenerse viva la variable **X**, cada vez que que ejecutemos **inc()**, actualizará el último valor que tenia **X**.
-
-Para poder limitar el ámbito de una variable a una función, hay que usar lo que se llama ***IIFE Pattern***, consiste en envolver la función entre paréntesis de ésta forma:
-
-    (function f(){
-      var x = 0;
-      }());
-
-***
-
-### Objects and Constructors
-
-En lo referente a objetos, JS distingue 2 modos de operar:
-
-1 **Objetos planos**. Son objetos únicos que no pertenecen a ninguna clase, en los que definimos sus propiedades (variables y funciones):
-    var persona = {
-      nombre: 'Pepe';
-
-      descripcion: function (){
-        return this.nombre;
-      }
-    }
-Pero éstos objetos no son inmutables, podemos hacer éstas operaciones:
-
-Código | Operación
+Código | Resultado
 -- | --
-persona.tlfno = '933233456'; | Añadimos la propiedad **tlfno** a **persona**
-delete persona.tlfno; | Eliminamos la propiedad **tlfno**
-'apellidos' in persona; | Comprobamos si persona tiene la propiedad **apellidos**
+sort < lista_archivos.txt | Ejecuta el comando sort sobre lista_archivos.txt y lo muestra en pantalla.
+sort < lista_archivos.txt > lista_archivos_ordenada.txt | Igual que el anterior pero en lugar de mostrarlo, almacenandola en otro archivo.
 
-Otra cosa que podemos hacer con éstos objetos es extraer sus métodos para usarlos como funciones únicas, para ello tendremos que tener cuidado cuando dentro de la función hacemos uso de alguno de los parámetros propios del objeto (operador ***this***). Si ejecutamos la función fuera del objeto, el operador ***this*** se conbierte en ***undefined***, para cubrirnos en éste caso existe el método ***bind()*** disponible para todas las funciones, funciona de ésta manera:
+**Pipelines**: En otras ocasiones la entrada de datos en un comando puede ser sustituida directamente por la salida de datos de otro.
 
-    var funcion = persona.descripcion;
-    funcion(); -> TypeError: Cannot read property 'nombre' of undefined
-    var funcion = persona.descripcion.bind(pepe); -> sustituye el **this** por 'pepe'
-    funcion(); -> 'pepe'
+Código | Resultado
+-- | --
+ls -l | less | Ejecutamos ls y la lista obtenida nos sirve de entrada de datos para el editor less, que nos dejará navegar por el resultado.
 
-Otra cosa que hay que tener en cuenta es que si tenemos una función dentro de un método, el this del método es ***undefined*** dentro de la función, si queremos poder usar alguna propiedad a través del **this**, debemos 'copiarla' en otra variable.
+**Filters**: Los filtros se usan para tratar la informacin obtenida a traves de un pipeline. Aquí va una lista de los más utilizados:
 
-2 **Constructores**. Para poder hacer uso de la característica más importante de los objetos, ***la Herencia***, necesitamos constructores, en JS son funciones normales y corrientes a las que se les llama con el operador ***new*** y su nombre empieza con mayúscula.
-
-    function Persona(nombre, apellidos){
-      this.nombre = nombre;
-      this.apellidos = apellidos;
-    }
-    //Métodos
-    Persona.prototype.descripcion = function (){
-      return 'Nombre: ' + this.nombre + this.apellidos;
-    }
-
-    var p = new Persona('Pepe', 'Lopez');
-    p.nombre; -> 'Pepe'
-    p.descripcion(); -> 'Nombre: Pepe Lopez'
-    p instanceof Persona; -> true
-
+Filtro | Significado
+-- | --
+sort | Ordena el input lo manda a la salida estandar.
+uniq | Elimina lineas duplicadas en un archivo ordenado recibido por la entrada estandar.
+grep | Devuelve cada linea que coincida con la plantilla especificada.
+fmt | Lee el texto de la entrada estandar y lo muestra formateado en la salida estandar.
+    
 ***
 
-Hasta aquí mi primera visión de JS, aún me falta mucho que aprender y lo iré plasmando en más artículos.
+### Expansion
+
+Expansion es como la Shell llama a las operaciones que realiza sobre el texto que le pedimos ejecutar.
+
+**Pathname Expansion**: Es lo que la Shell hace cuando introducimos una wildcard, ejemplos:
+
+Código | Resultado
+-- | --
+echo D* | Muestra en pantalla los archivos o directorios que empiecen por D.
+echo *s | Muestra en pantalla los archivos o directorios que acaben por s.
+
+**Tilde Expansion**: Cuando introducimos ~ delante de un nombre, el sistema lo traduce como el directorio home del mismo, si no introducimos nada, el sistema interpreta que es el del usuario actual.
+
+Código | Resultado
+-- | --
+echo ~ | Muestra en pantalla la ruta del directorio home del usuario actual.
+echo ~pepe > | Muestra en pantalla la ruta del directorio home del usuario pepe.
+
+**Arithmetic Expansion**: Si utilizamos la expansion $, le estamos pidiendo al sistema que nos calcule el resultado de la operación que le escribimos dentro de los paréntesis.
+
+Código | Resultado
+-- | --
+echo $((5\**2)) | Muestra en pantalla el resultado de la expresion.
+echo $(((5\**2) * 3)) | Muestra en pantalla los archivos o directorios que acaben por s.
+
+**Brace Expansion**: 
+**Parameter Expansion**: 
+**Command Substitution**: 
+**Quoting**:
+**Double Quotes**: 
+**Single Quotes**: 
+**Escaping Characters**: 
+**Backslash Tricks**: 
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+  
+***
+
+Con esto podemos manejarnos en la Shell de nuestro sistema sin entrar en pánico.
 
 Un saludo.
