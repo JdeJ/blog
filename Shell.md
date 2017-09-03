@@ -46,6 +46,7 @@ ls -l /etc /bin | Muestra el contenido con información apliada de los directori
 **FILE**: El comando *file* nos sirve para determinar el tipo de archivo que estamos manejando y así saber como debemos abrirlo correctamente para conocer su contenido.
 
     file nombre_del_archivo
+    
 ***
 
 ### Directorios más importantes de nuestro ordenador
@@ -55,22 +56,74 @@ A continuación os muestro una tabla con los principales directorios de nuestro 
 Directorio | Descripción
 -- | --
 \ | Es la raíz, a partir de aquí cuelgan el resto de directorios y archivos de nuestro sistema.
-\boot | .
-\etc | .
-\bin | .
-\sbin | .
-\usr | .
-\usr\local | .
-\var | .
-\lib | .
-\home | .
-\root | .
-\tmp | .
-\dev | .
-\proc | .
-\media. \mnt | .
+\boot | En este directorio se encuentra el kernel de Linux y los archivos de arranque.
+\etc | Aqui están los archivos de configuración del sistema: usuarios, unidades montadas, hosts names...
+\bin | Este directorio contiene la mayoria de los programas de nuestro sistema.
+\sbin | Son los programas que solo puede utilizar el administrador.
+\usr | Archivos que necesitan otros programas para su funcionamiento.
+\usr\local | Aqui se guardan las aplicaciones que no tienen que ver con la distribución oficial.
+\var | Son archivos que el sistema va modificando mientras funciona.
+\lib | Librerias del sistema.
+\home | Es el directorio donde se guardan los archivos del usuario.
+\root | El directorio personal del administrador.
+\tmp | Donde los programas guardan sus temporales.
+\dev | Es el directorio donde se encuentran las unidades montandas.
+\media. \mnt | Aqui aparecen las unidades que el sistema monta durante su funcionamiento como CDROM, USB...
 
+***
 
+### Manipulación de archivos
+
+En este apartado vamos a ver los 4 comandos principales para manejar los archivos de nuestro sistema, pero antes hay que conocer las wildcards. 
+
+**WILDCARDS**: Son comodines que usaremos a la hora de ejecutar los comandos para añadirles funcionalidad extra, se pueden usar con cualquier comando que acepte como argumentos, nombres de archivo.
+
+Wildcard | Significado
+-- | --
+* | Sustituye cualquier caracter.
+? | Sustituye un solo caracter.
+[characters]  | Los que coinciden con un grupo de caracteres.
+[!characters]  | Los que no coinciden con un grupo de caracteres.
+
+**CP**: Sirve para copiar archivos y directorios, aquí van un par de ejemplos:
+
+Código | Resultado
+-- | --
+cp ar1 ar2 | Copia el contenido de ar1 en ar2, si ar2 no existe lo crea, si existe lo sobreescribe.
+cp ar1 dir1 | Copia ar1 dentro del directorio dir1.
+cp -R dir1 dir2  | Copia dir1 dentro de la carpeta dir2, si no existe lo crea.
+
+**MV**: Mueve o renombra archivos y directorios.
+
+Código | Resultado
+-- | --
+mv ar1 ar2 | Si ar2 no existe, renombra ar1. Si existe, copia el contenido de ar1 en ar2.
+mv ar1 ar2 ar3 dir1 | Mueve ar1, ar2 y ar3 a dir1. Si dir1 no existe da error.
+mv dir1 dir2  | Si dir2 no existe, renombra dir1. Sino mueve dir1 a dir2.
+
+**RM**: Borra archivos y directorios. Hay que tener en cuenta que no existe un comando deshacer, una vez eliminemos algo permanecera así permanentemente.
+
+Código | Resultado
+-- | --
+rm ar1 | Elimina el archivo ar1.
+rm ar1 ar2 | Elimina los archivos ar1 y ar2.
+rm -r dir1 dir2  | Borra el contenido de los directorios dir1 y dir2.
+    
+**MKDIR**: Es el comando más simple, sirve para crear directorios.
+
+    mkdir nombre_del_directorio
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 
