@@ -171,7 +171,7 @@ sort < lista_archivos.txt > lista_archivos_ordenada.txt | Igual que el anterior 
 
 Código | Resultado
 -- | --
-ls -l | less | Ejecutamos ls y la lista obtenida nos sirve de entrada de datos para el editor less, que nos dejará navegar por el resultado.
+ls -l \| less | Ejecutamos ls y la lista obtenida nos sirve de entrada de datos para el editor less, que nos dejará navegar por el resultado.
 
 **Filters**: Los filtros se usan para tratar la informacin obtenida a traves de un pipeline. Aquí va una lista de los más utilizados:
 
