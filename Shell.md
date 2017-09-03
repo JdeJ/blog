@@ -209,26 +209,103 @@ Código | Resultado
 echo $((5\**2)) | Muestra en pantalla el resultado de la expresion.
 echo $(((5\**2) * 3)) | Muestra en pantalla los archivos o directorios que acaben por s.
 
-**Brace Expansion**: 
-**Parameter Expansion**: 
-**Command Substitution**: 
-**Quoting**:
-**Double Quotes**: 
-**Single Quotes**: 
-**Escaping Characters**: 
-**Backslash Tricks**: 
+**Brace Expansion**: Cuando utilizamos las {}, la shell crea una cadena tantas cadenas de texto como contenido hayamos puesto dentro de ellas:
+
+Código | Resultado
+-- | --
+echo Number_{1..5} | Number_1 Number_2 Number_3 Number_4 Number_5.
+echo {Z..A} | Z Y X W V U T S R Q P O N M L K J I H G F E D C B A.
+
+**Parameter Expansion**: Se usa el carcarter $ para conocer el contenido de variables del sistema:
+
+Código | Resultado
+-- | --
+echo $USER | Muestra por pantalla el usuario actual.
+
+**Command Substitution**: También se usa el caracter $ y sirve para enviar el resultado de la ejecución de un comando:
+
+Código | Resultado
+-- | --
+echo $(ls) | Muestra por pantalla el contenido del directorio de trabajo actual.
+
+**Escaping Characters**: Si en algún momento necesitamos que la Shell no interprete un cierto caracter lo haremos poniendo delante el caracter \:
+
+Código | Resultado
+-- | --
+echo "Un € son $1.66" | Un € son 0.66
+echo "Un € son \$1.66" | Un € son $1.66
+
+***
+
+### Permisos
+
+Un sistema Linux a parte de ser multitarea, también es multiusuario, lo que quiere decir que puede haber varios usuarios trabajando con los mismos recursos del sistema (uno delante del ordenador y otro a traves de Internet). Para mantener la integridad del sistema y que unos usuarios no puedan manipular los archivos de otro, Linux tiene un sistema de permisos.
+
+Antes de nada debemos conocer cuales son los derechos actuales del archivo o directorio, para ello ejecutaremos:
+
+    ls -l archivo.txt
+
+que nos muestra algo parecido a esto en pantalla:
+
+    -rwxrw-r-- propietario grupo 3456 03 sep 2017 archivo.txt 
+
+Si nos quedamos con la primera cadena "-rwxrw-r--", y la descomponemos obtenemos:
+
+- \- : Nos dice que es un archivo (d para directorio).
+- rwx: El primer grupo nos dice los derechos del propietario sobre el archivo.
+- rw-: El segundo grupo nos dice los derechos que tienen los usuarios que pertenecen al mismo grupo que el propietario.
+- r--: El ultimo grupo nos dice los derechos que tienen el resto de los usuarios.
+
+Las siglas tienen el siguiente significado:
+
+- r: lectura.
+- w: escritura.
+- x: ejecución.
 
 
+Para poder trastear con los permisos de un archivo o carpeta tenemos los siguientes comandos: 
 
+**CHMOD**: Con este comando cambiaremos los derechos de un usuario, del grupo...
 
+Como ya sabéis el sistema trabaja en binario y por ello debemos conocer la equivalencia de los derechos en binario para poder modificarlos, si queremos dar un derecho es un 1 si no queremos es un 0, con lo que siguiendo los ejemplos anteriores los derechos quedarían de esta manera:
 
+    rwx rw- r-- = 111 110 100
     
+que equivale a:
+
+    rwx rw- r-- = 7 6 4
+
+Aqui van unos ejemplos de cambios de derechos:
+
+Código | Resultado
+-- | --
+chmod  774 arcivo.txt | Hemos añadido el derecho de ejecucion al grupo.
+chmod  704 arcivo.txt | Hemos quitado todos los derechos al grupo.
+chmod  700 arcivo.txt | Hemos quitado todos los derechos al grupo y al resto de usuarios.
+
+**SU o SUDO**: Sirve para loguearse temporalmente como administrador y poder realizar operaciones solo permitidas para estos.
+
+**CHOWN**: Lo utilizaremos cuando necesitemos cambiar el propietario de un archivo o carpeta. Para ello debemos logearnos como administrador para poder realizar el cambio, y funciona de la siguiente forma:
+
+    chown nuevo_propietario archivo
+
+**CHGRP**: De la misma manera podemos cambiar el grupo propietario de un archivo, para ello debemos ser el propietario del archivo o carpeta y funciona asi:
+
+    chgrp nuevo_grupo archivo
+
+***
+
+### Control de los programas en ejecución
+
+Como hemos comentado anteriormente, un sistema Linux es multitarea, por lo que se pueden estar ejecutando varios programas al mismo tiempo y por eso nos ofrece varias herramientas para poder controlarlas.
     
-    
-    
-    
-    
-    
+**PS**: Al ejecutar este comando obtendremos una lista con información ampliada de las aplicaciones que se estan ejecutando en segundo plano.
+
+**KILL**: Con este comando podremos finalizar cualquier aplicacion que esté en ejecucion.
+
+**JOBS**: Igual que PS pero sólo nos muestra la lista de las aplicaciones en ejecución.
+
+**BG**: Para ejecutar una aplicacion en segundo plano lo haremos de la siguiente manera: comando &. Para ver la lista de comandos en segundo plano ejecutaremos bg. 
   
 ***
 
