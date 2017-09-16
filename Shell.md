@@ -1,5 +1,5 @@
 # Funcionamiento Basico de la Shell
-#### [Aprende Javascript con mentoringjs - Pretraining Step 3](http://mentoringjs.com "MentoringJS")
+#### [Aprende Javascript con mentoringjs - Pretraining Step 4](http://mentoringjs.com "MentoringJS")
 
 Para los que ya tenemos una edad la Shell o consola no nos es desconocida pero quizás a algún joven que esté leyendo ésto, le suene a chino.
 
